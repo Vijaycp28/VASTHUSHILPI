@@ -24,7 +24,7 @@ const Navbar = () => {
       
 
       {/* Navigation links */}
-      <div className="mt-4 flex justify-center gap-6 text-sm font-medium">
+      <div className="mt-6 flex justify-center gap-6 text-sm font-medium">
         <NavLink
           to="/"
           className={({ isActive }) =>
