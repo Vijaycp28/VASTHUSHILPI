@@ -9,6 +9,7 @@ import ScrollToTop from './components/ScrollToTop';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Loader from './components/Loader'; // ← new component
+import Whatsapp from './components/Whatsapp';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -27,6 +28,7 @@ function App() {
     <Router>
       <ScrollToTop />
       <Navbar />
+     
       <div>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -34,7 +36,8 @@ function App() {
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/contact" element={<ContactPage />} />
         </Routes>
-      </div>
+      </div> 
+      <Whatsapp/>
       <Footer />
     </Router>
   );

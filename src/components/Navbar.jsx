@@ -19,16 +19,7 @@ const Navbar = () => {
           Vasthushilpi
         </Link>
 
-        {/* WhatsApp button */}
-        <a
-          href="https://wa.me/9744611903"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1 text-white bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm"
-        >
-          <FaWhatsapp className="text-white" /> WhatsApp
-        </a>
-        
+      
       </div>
       
 
