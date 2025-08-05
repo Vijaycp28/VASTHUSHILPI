@@ -1,31 +1,41 @@
 // src/pages/ContactPage.jsx
-import React, { useRef } from 'react';
+import React, { useRef,useState  } from 'react';
 import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaWhatsapp } from 'react-icons/fa';
-
+ 
 const ContactPage = () => {
-
-   const form = useRef();
+  const form = useRef();
+  const [successMessage, setSuccessMessage] = useState("");
 
   const sendEmail = (e) => {
     e.preventDefault();
 
-    emailjs.sendForm(
-      'service_y9h7rxh',       // Replace with your EmailJS service ID
-      'template_ni2ceqf',      // Replace with your EmailJS template ID
-      form.current,
-      '_FSmWKbU9mgBvkff5'        // Replace with your EmailJS public key
-    )
-    .then((result) => {
-        console.log('SUCCESS!', result.text);
-        alert("Message sent successfully!");
-        e.target.reset(); // Clear form
-    }, (error) => {
-        console.log('FAILED...', error.text);
-        alert("Failed to send message. Please try again.");
-    });
+    emailjs
+      .sendForm(
+        'service_y9h7rxh', // Your EmailJS service ID
+        'template_ni2ceqf', // Your EmailJS template ID
+        form.current,
+        '_FSmWKbU9mgBvkff5'  // Your EmailJS public key
+      )
+      .then(
+        (result) => {
+          console.log("SUCCESS!", result.text);
+          setSuccessMessage("Message sent successfully!");
+          e.target.reset(); // Clear form
+
+          // Optional: clear message after 5 seconds
+          setTimeout(() => {
+            setSuccessMessage("");
+          }, 5000);
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+          alert("Failed to send message. Please try again.");
+        }
+      );
   };
+
   return (
     <div className="font-sans px-6 py-16 bg-gray-50 pt-28 md:pt-32">
       <div className="text-center mb-12">
@@ -37,7 +47,7 @@ const ContactPage = () => {
 
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 mb-16">
         {/* Left: Form */}
-        <motion.div
+            <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -45,56 +55,64 @@ const ContactPage = () => {
           className="bg-white p-8 rounded-xl shadow-lg"
         >
           <h3 className="text-xl font-bold text-green-800 mb-6">Send us a Message</h3>
-              <form ref={form} onSubmit={sendEmail} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input
-            type="text"
-            name="from_name"
-            placeholder="Full Name *"
-            className="border border-gray-300 px-4 py-2 rounded w-full"
-            required
-          />
-          <input
-            type="text"
-            name="from_number"
-            placeholder="Phone Number *"
-            className="border border-gray-300 px-4 py-2 rounded w-full"
-            required
-          />
-        </div>
-        <input
-          type="email"
-          name="from_email"
-          placeholder="Email Address *"
-          className="border border-gray-300 px-4 py-2 rounded w-full"
-          required
-        />
-        <select
-  name="service"
-  className="border border-gray-300 px-4 py-2 rounded w-full"
-  required
->
-  <option value="" disabled selected>Select a service</option>
-  <option value="Vasthu Consulting">Vasthu Consulting</option>
-  <option value="Vasthu Based Plan">Vasthu Based Plan</option>
-  <option value="Plan Correction">Plan Correction</option>
-  <option value="Vasthu Correction">Vasthu Correction</option>
-</select>
-        <textarea
-          name="message"
-          placeholder="Message *"
-          rows="4"
-          className="border border-gray-300 px-4 py-2 rounded w-full"
-          required
-        ></textarea>
-        <button
-          type="submit"
-          className="w-full cursor-pointer bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition duration-300"
-        >
-          Send Message
-        </button>
-      </form>
-          
+
+
+          <form ref={form} onSubmit={sendEmail} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input
+                type="text"
+                name="from_name"
+                placeholder="Full Name *"
+                className="border border-gray-300 px-4 py-2 rounded w-full"
+                required
+              />
+              <input
+                type="text"
+                name="from_number"
+                placeholder="Phone Number *"
+                className="border border-gray-300 px-4 py-2 rounded w-full"
+                required
+              />
+            </div>
+            <input
+              type="email"
+              name="from_email"
+              placeholder="Email Address *"
+              className="border border-gray-300 px-4 py-2 rounded w-full"
+              required
+            />
+            <select
+              name="service"
+              className="border border-gray-300 px-4 py-2 rounded w-full"
+              required
+            >
+              <option value="" >Select a service</option>
+              <option value="Vasthu Consulting">Vasthu Consulting</option>
+              <option value="Vasthu Based Plan">Vasthu Based Plan</option>
+              <option value="Plan Correction">Plan Correction</option>
+              <option value="Vasthu Correction">Vasthu Correction</option>
+            </select>
+            <textarea
+              name="message"
+              placeholder="Message *"
+              rows="4"
+              className="border border-gray-300 px-4 py-2 rounded w-full"
+              required
+            ></textarea>
+            <button
+              type="submit"
+              className="w-full cursor-pointer bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition duration-300"
+            >
+              Send Message
+            </button>
+            
+          {/* Success Message */}
+          {successMessage && (
+            <div className="mb-4 text-green-700 bg-green-100 px-4 py-2 rounded border border-green-300">
+              {successMessage}
+            </div>
+          )}
+          </form>
         </motion.div>
 
         {/* Right: Contact Info */}

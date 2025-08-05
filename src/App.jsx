@@ -7,13 +7,27 @@ import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
 import ScrollToTop from './components/ScrollToTop';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import Loader from './components/Loader'; // ← new component
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2500); // show loader for 2.5s
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) return <Loader />;
+
   return (
     <Router>
-      <ScrollToTop /> 
+      <ScrollToTop />
       <Navbar />
-      <div className="">
+      <div>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
